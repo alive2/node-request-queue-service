@@ -8,7 +8,9 @@ const svc = new Service({
     name: Env.SERVICE_NAME,
     description: 'HTTP Request Queue',
     script: path.join(__dirname, 'server.js'),
-    env: [{ name: 'NODE_ENV', value: 'production' }],
+    env: {
+        NODE_ENV: 'production',
+    },
 })
 
 svc.on('install', function () {
