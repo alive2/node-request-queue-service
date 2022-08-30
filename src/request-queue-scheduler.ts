@@ -36,8 +36,9 @@ export class RequestQueueScheduler {
         for (const request of requestQueue) {
             logger.info(`Processing request ${request.id}`)
             try {
-                const result = await RequestQueueService.processRequest(request)
-                if (result.status !== HttpStatus.RequestTimeout) {
+                const response = await RequestQueueService.processRequest(request)
+                console.log('response', JSON.stringify(response, null, 4).cyan)
+                if (response.status !== HttpStatus.RequestTimeout) {
                     logger.info(`Request ${request.id} processed`)
                     await RequestQueueService.deleteRequest(request.id)
                 } else {
