@@ -8,7 +8,8 @@ export class RequestQueueScheduler {
 
     constructor() {
         this.job = new CronJob(
-            '0 0/3 * 1/1 * ? *', // Every 3 minutes
+            // Every 3 minutes
+            '*/3 * * * *',
             this.safeRun.bind(this),
             null,
             true,
