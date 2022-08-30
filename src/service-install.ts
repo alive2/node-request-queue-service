@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { Env } from './env'
+import { Env } from '@/env'
 import * as path from 'path'
 
 const Service = require('node-linux').Service
