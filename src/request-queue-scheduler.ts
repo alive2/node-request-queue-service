@@ -7,16 +7,7 @@ export class RequestQueueScheduler {
     job: CronJob
 
     constructor() {
-        this.job = new CronJob(
-            // Every 3 minutes
-            '*/3 * * * *',
-            this.safeRun.bind(this),
-            null,
-            true,
-            Env.TIMEZONE,
-            RequestQueueScheduler.name,
-            false,
-        )
+        this.job = new CronJob(Env.REQUEST_SCHEDULER_CRON, this.safeRun.bind(this), null, true, Env.TIMEZONE, RequestQueueScheduler.name, false)
     }
 
     private async safeRun() {
@@ -39,6 +30,7 @@ export class RequestQueueScheduler {
                 const response = await RequestQueueService.processRequest(request)
                 console.log('response', JSON.stringify(response, null, 4).cyan)
             } catch (err) {
+                console.log('error', JSON.stringify(err, null, 4).red)
                 logger.error(err)
                 await RequestQueueService.deleteRequest(request.id)
             }

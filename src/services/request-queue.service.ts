@@ -6,11 +6,15 @@ import { IRequest } from '@/interfaces/request-queue.interface'
 import { isEmpty } from '@/utils/util'
 import { HttpStatus } from '@/constants/http-status'
 import fetch from 'node-fetch'
+import { Env } from '@/env'
 
 @EntityRepository()
 class _RequestQueueService extends Repository<RequestEntity> {
     public async processRequest(requestQueue: IRequest) {
-        return await fetch(requestQueue.url, requestQueue.data || undefined)
+        const controller = new AbortController()
+        const signal = controller.signal as any
+        setTimeout(() => controller.abort(), Env.REQUEST_TIMEOUT)
+        return await fetch(requestQueue.url, { ...requestQueue.data, signal })
     }
 
     public async findAllRequests(): Promise<IRequest[]> {
