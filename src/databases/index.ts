@@ -2,7 +2,7 @@ import { join } from 'path'
 import { ConnectionOptions } from 'typeorm'
 
 export const dbConnection: ConnectionOptions = {
-    type: 'sqlite',
+    type: 'better-sqlite3',
     database: join(process.cwd(), 'db.sqlite'),
     synchronize: true,
     logging: false,
