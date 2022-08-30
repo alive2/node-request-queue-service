@@ -29,6 +29,7 @@ export class RequestQueueScheduler {
             try {
                 const response = await RequestQueueService.processRequest(request)
                 console.log('Response', JSON.stringify(response, null, 4).cyan)
+                await RequestQueueService.deleteRequest(request.id)
             } catch (err) {
                 console.log(`Failed to process request ${request.id}`, JSON.stringify(err, null, 4).red)
                 if (typeof err === 'object' && err.type === 'aborted') {
