@@ -11,8 +11,8 @@
     "build": "npm run build:swc",
     "build:swc": "swc src -d dist --source-maps --copy-files",
     "build:tsc": "tsc && tsc-alias",
-    "service:install": "cross-env NODE_ENV=production && node dist/service-install.js",
-    "service:uninstall": "cross-env NODE_ENV=production && node dist/service-uninstall.js",
+    "service:install": "cross-env NODE_ENV=production node dist/service-install.js",
+    "service:uninstall": "cross-env NODE_ENV=production node dist/service-uninstall.js",
     "service:start": "service RequestQueue start",
     "service:stop": "service RequestQueue stop",
     "service:status": "service RequestQueue status"

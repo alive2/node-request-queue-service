@@ -2,6 +2,7 @@ import { bool, cleanEnv, num, port, str } from 'envalid'
 
 export const Env = cleanEnv(process.env, {
     NODE_ENV: str(),
+    SERVICE_NAME: str(),
     PORT: port(),
     TIMEZONE: str(),
     LOG_FORMAT: str(),
