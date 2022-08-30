@@ -1,13 +1,18 @@
 import 'dotenv/config'
-import { Env } from '@/env'
 import * as path from 'path'
 
 const Service = require('node-linux').Service
 
 const svc = new Service({
-    name: Env.SERVICE_NAME,
+    name: 'RequestQueue',
     description: 'HTTP Request Queue',
     script: path.join(__dirname, 'server.js'),
+    env: [
+        {
+            name: 'NODE_ENV',
+            value: 'production',
+        },
+    ],
 })
 
 svc.on('install', function () {
