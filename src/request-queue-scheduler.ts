@@ -2,14 +2,13 @@ import { CronJob } from 'cron'
 import { logger } from '@/utils/logger'
 import { Env } from '@/env'
 import { RequestQueueService } from '@/services/request-queue.service'
-import { HttpStatus } from './constants/http-status'
 
 export class RequestQueueScheduler {
     job: CronJob
 
     constructor() {
         this.job = new CronJob(
-            '*/10 * * * * *', // At every 10 seconds
+            '0 0/3 * 1/1 * ? *', // Every 3 minutes
             this.safeRun.bind(this),
             null,
             true,
@@ -38,12 +37,6 @@ export class RequestQueueScheduler {
             try {
                 const response = await RequestQueueService.processRequest(request)
                 console.log('response', JSON.stringify(response, null, 4).cyan)
-                if (response.status !== HttpStatus.RequestTimeout) {
-                    logger.info(`Request ${request.id} processed`)
-                    await RequestQueueService.deleteRequest(request.id)
-                } else {
-                    logger.info(`Request ${request.id} timed out`)
-                }
             } catch (err) {
                 logger.error(err)
                 await RequestQueueService.deleteRequest(request.id)
