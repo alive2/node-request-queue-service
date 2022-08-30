@@ -6,6 +6,7 @@ import { IRequest } from '@/interfaces/request-queue.interface'
 import { isEmpty } from '@/utils/util'
 import { HttpStatus } from '@/constants/http-status'
 import fetch from 'node-fetch'
+import { AbortController } from 'node-abort-controller'
 import { Env } from '@/env'
 
 @EntityRepository()
