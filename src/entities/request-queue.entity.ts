@@ -12,6 +12,9 @@ export class RequestEntity extends BaseEntity implements IRequest {
     @Column({ type: 'simple-json', nullable: true })
     data?: IRequest['data']
 
+    @Column({ default: 0 })
+    attempts: number
+
     @Column()
     @CreateDateColumn()
     createdAt: Date

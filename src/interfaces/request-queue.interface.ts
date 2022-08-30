@@ -4,4 +4,5 @@ export interface IRequest {
     id: number
     url: string
     data?: Request
+    attempts: number
 }

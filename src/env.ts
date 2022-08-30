@@ -16,4 +16,5 @@ export const Env = cleanEnv(process.env, {
     DB_DATABASE: str(),
     REQUEST_TIMEOUT: num(),
     REQUEST_SCHEDULER_CRON: str(),
+    REQUEST_MAX_ATTEMPTS_ON_TIMEOUT: num(),
 })
