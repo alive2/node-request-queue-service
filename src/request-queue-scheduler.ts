@@ -31,8 +31,12 @@ export class RequestQueueScheduler {
                 console.log('response', JSON.stringify(response, null, 4).cyan)
             } catch (err) {
                 console.log('error', JSON.stringify(err, null, 4).red)
-                logger.error(err)
-                await RequestQueueService.deleteRequest(request.id)
+                if (typeof err === 'object' && err.type === 'aborted') {
+                    console.error(`Request ${request.id} timed out after ${Env.REQUEST_TIMEOUT} milliseconds`)
+                } else {
+                    logger.error(err)
+                    await RequestQueueService.deleteRequest(request.id)
+                }
             }
         }
     }
