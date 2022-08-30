@@ -28,9 +28,9 @@ export class RequestQueueScheduler {
             logger.info(`Processing request ${request.id}`)
             try {
                 const response = await RequestQueueService.processRequest(request)
-                console.log('response', JSON.stringify(response, null, 4).cyan)
+                console.log('Response', JSON.stringify(response, null, 4).cyan)
             } catch (err) {
-                console.log('error', JSON.stringify(err, null, 4).red)
+                console.log(`Failed to process request ${request.id}`, JSON.stringify(err, null, 4).red)
                 if (typeof err === 'object' && err.type === 'aborted') {
                     console.error(`Request ${request.id} timed out after ${Env.REQUEST_TIMEOUT} milliseconds`)
                 } else {
