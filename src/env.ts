@@ -1,4 +1,4 @@
-import { bool, cleanEnv, port, str } from 'envalid'
+import { bool, cleanEnv, num, port, str } from 'envalid'
 
 export const Env = cleanEnv(process.env, {
     NODE_ENV: str(),
@@ -9,4 +9,9 @@ export const Env = cleanEnv(process.env, {
     LOG_DIR: str(),
     ORIGIN: str(),
     CREDENTIALS: bool(),
+    DB_HOST: str(),
+    DB_PORT: num(),
+    DB_USER: str(),
+    DB_PASSWORD: str(),
+    DB_DATABASE: str(),
 })

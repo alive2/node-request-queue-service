@@ -1,9 +1,14 @@
+import { Env } from '@/env'
 import { join } from 'path'
 import { ConnectionOptions } from 'typeorm'
 
 export const dbConnection: ConnectionOptions = {
-    type: 'better-sqlite3',
-    database: join(process.cwd(), 'db.sqlite'),
+    type: 'mysql',
+    host: Env.DB_HOST,
+    port: Env.DB_PORT,
+    username: Env.DB_USER,
+    password: Env.DB_PASSWORD,
+    database: Env.DB_DATABASE,
     synchronize: true,
     logging: false,
     entities: [join(__dirname, '../**/*.entity{.ts,.js}')],
