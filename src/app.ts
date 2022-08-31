@@ -25,8 +25,9 @@ class App {
         this.port = Env.PORT || 3000
 
         this.connectToDatabase()
+        this.initializeRoutes(routes, true)
         this.initializeMiddlewares()
-        this.initializeRoutes(routes)
+        this.initializeRoutes(routes, false)
         this.initializeErrorHandling()
 
         new RequestQueueScheduler()
@@ -34,10 +35,7 @@ class App {
 
     public listen() {
         this.app.listen(this.port, () => {
-            logger.info(`=================================`)
-            logger.info(`======= ENV: ${this.env} =======`)
-            logger.info(`🚀 App listening on the port ${this.port}`)
-            logger.info(`=================================`)
+            logger.info(`(${this.env}) 🚀 App listening on the port ${this.port}`)
         })
     }
 
@@ -60,10 +58,20 @@ class App {
         this.app.use(cookieParser())
     }
 
-    private initializeRoutes(routes: Routes[]) {
-        routes.forEach(route => {
-            this.app.use('/', route.router)
-        })
+    private initializeRoutes(routes: Routes[], beforeMiddlewares: boolean) {
+        if (beforeMiddlewares) {
+            routes
+                .filter(route => route.initBeforeMiddlewares)
+                .forEach(route => {
+                    this.app.use('/', route.router)
+                })
+        } else {
+            routes
+                .filter(route => !route.initBeforeMiddlewares)
+                .forEach(route => {
+                    this.app.use('/', route.router)
+                })
+        }
     }
 
     private initializeErrorHandling() {
