@@ -26,14 +26,14 @@ class RequestQueueController {
         }
     }
 
-    public createRequest = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    public createRequest = async (req: Request, res: Response): Promise<void> => {
+        const requestData: CreateRequestDto = req.body
         try {
-            const requestData: CreateRequestDto = req.body
-            const createRequestData: IRequest = await RequestQueueService.createRequest(requestData)
-
-            res.status(HttpStatus.Ok).json({ data: createRequestData, message: 'created' })
+            await RequestQueueService.processRequest(requestData as IRequest, 5000)
+            res.status(HttpStatus.Ok).json({ data: 'PROCESSED', message: 'created' })
         } catch (error) {
-            next(error)
+            await RequestQueueService.createRequest(requestData)
+            res.status(HttpStatus.Ok).json({ data: 'QUEUED', message: 'created' })
         }
     }
 

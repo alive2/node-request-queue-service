@@ -11,10 +11,10 @@ import { Env } from '@/env'
 
 @EntityRepository()
 class _RequestQueueService extends Repository<RequestEntity> {
-    public async processRequest(requestQueue: IRequest) {
+    public async processRequest(requestQueue: IRequest, timeout = Env.REQUEST_TIMEOUT) {
         const controller = new AbortController()
         const signal = controller.signal as any
-        setTimeout(() => controller.abort(), Env.REQUEST_TIMEOUT)
+        setTimeout(() => controller.abort(), timeout)
         return await fetch(requestQueue.url, { ...requestQueue.data, signal })
     }
 
