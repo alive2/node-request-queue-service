@@ -6,8 +6,6 @@ import helmet from 'helmet'
 import hpp from 'hpp'
 import morgan from 'morgan'
 import compression from 'compression'
-import { createConnection } from 'typeorm'
-import { dbConnection } from '@/databases'
 import { Routes } from '@/interfaces/routes.interface'
 import errorMiddleware from '@/middlewares/error.middleware'
 import { logger, stream } from '@/utils/logger'
@@ -24,7 +22,6 @@ class App {
         this.env = Env.NODE_ENV || 'development'
         this.port = Env.PORT || 3000
 
-        this.connectToDatabase()
         this.initializeRoutes(routes, true)
         this.initializeMiddlewares()
         this.initializeRoutes(routes, false)
@@ -35,16 +32,12 @@ class App {
 
     public listen() {
         this.app.listen(this.port, () => {
-            logger.info(`(${this.env}) 🚀 App listening on the port ${this.port}`)
+            logger.info(`[${this.env.toUpperCase()}] App listening on the port ${this.port}`.green)
         })
     }
 
     public getServer() {
         return this.app
-    }
-
-    private connectToDatabase() {
-        createConnection(dbConnection)
     }
 
     private initializeMiddlewares() {

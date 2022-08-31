@@ -2,6 +2,7 @@ import { CronJob } from 'cron'
 import { logger } from '@/utils/logger'
 import { Env } from '@/env'
 import { RequestQueueService } from '@/services/request-queue.service'
+import { sendMail } from './mail'
 
 export class RequestQueueScheduler {
     job: CronJob
@@ -39,6 +40,21 @@ export class RequestQueueScheduler {
                     if (request.attempts >= Env.REQUEST_MAX_ATTEMPTS_ON_TIMEOUT) {
                         console.error(`Request ${request.id} exceeded maximum attempts (${Env.REQUEST_MAX_ATTEMPTS_ON_TIMEOUT}) and will be removed`)
                         await RequestQueueService.deleteRequest(request.id)
+                        try {
+                            await sendMail({
+                                to: Env.MAIL_RECEIVER,
+                                subject: 'Request Queue Scheduler',
+                                text: [
+                                    `Failed to process request ${Env.REQUEST_MAX_ATTEMPTS_ON_TIMEOUT} times.`,
+                                    'Request info:',
+                                    `Request ID: ${request.id}`,
+                                    `Request URL: ${request.url}`,
+                                    `Request DATA: ${JSON.stringify(request.data, null, 4)}`,
+                                ].join('\n'),
+                            })
+                        } catch (error) {
+                            console.error(error)
+                        }
                     }
                 } else {
                     logger.error(err)
