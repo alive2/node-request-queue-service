@@ -53,7 +53,7 @@ export class RequestQueueScheduler {
                                 ].join('\n'),
                             })
                         } catch (error) {
-                            console.error(error)
+                            logger.error(error)
                         }
                     }
                 } else {
