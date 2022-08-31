@@ -35,6 +35,7 @@ export async function initMail(): Promise<boolean> {
         if (!user) return false
         const pass = Env.MAIL_PASSWORD
         if (!pass) return false
+        console.log('Mail options:', { host, port, user, pass })
         const transporter = nodemailer.createTransport({
             host,
             port,
