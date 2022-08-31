@@ -123,3 +123,4 @@ dist
 .pnp.*
 
 db.sqlite
+.env
