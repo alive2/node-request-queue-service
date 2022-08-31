@@ -38,7 +38,8 @@ export async function initMail(): Promise<boolean> {
         const transporter = nodemailer.createTransport({
             host,
             port,
-            tls: { secureProtocol: 'TLSv1_method' },
+            // tls: { secureProtocol: 'TLSv1_method' },
+            tls: { secureProtocol: 'TLS_method' },
             auth: {
                 user,
                 pass,
