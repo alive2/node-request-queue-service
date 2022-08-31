@@ -38,7 +38,7 @@ export async function initMail(): Promise<boolean> {
         const transporter = nodemailer.createTransport({
             host,
             port,
-            tls: { secureProtocol: 'TLSv1_method' },
+            tls: { secureProtocol: '' },
             auth: {
                 user,
                 pass,
@@ -46,7 +46,7 @@ export async function initMail(): Promise<boolean> {
             logger: Env.isDevelopment,
         })
         // verify connection configuration and throw an error if it fails
-        // await transporter.verify()
+        await transporter.verify()
         mailTransporter = transporter as MailMeta['transporter']
         return true
     } catch (error) {

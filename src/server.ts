@@ -18,12 +18,6 @@ async function main() {
     logger.info('Initializing mail...'.yellow)
     await initMail()
 
-    await sendMail({
-        to: '173david173@gmail.com',
-        subject: '@@@@ ASDASD @@@@',
-        text: 'Hello world',
-    })
-
     const app = new App([new IndexRoute(), new RequestQueueRoute(), new ProxyRoute(), new Sms019Route()])
     app.listen()
 }
