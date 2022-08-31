@@ -15,7 +15,7 @@ import { RequestQueueScheduler } from '@/request-queue-scheduler'
 class App {
     public app: express.Application
     public env: string
-    public port: string | number
+    public port: number
 
     constructor(routes: Routes[]) {
         this.app = express()
@@ -31,9 +31,14 @@ class App {
     }
 
     public listen() {
-        this.app.listen(this.port, () => {
+        const callback = () => {
             logger.info(`[${this.env.toUpperCase()}] App listening on the port ${this.port}`.green)
-        })
+        }
+        if (Env.isProduction) {
+            this.app.listen(this.port, 'localhost', callback)
+        } else {
+            this.app.listen(this.port, callback)
+        }
     }
 
     public getServer() {
