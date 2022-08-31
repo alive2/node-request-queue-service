@@ -2,7 +2,7 @@ import 'dotenv/config'
 import 'colors'
 import '@/env'
 import App from '@/app'
-import { initMail } from '@/mail'
+import { initMail, sendMail } from '@/mail'
 import { dbConnection } from '@/databases'
 import { createConnection } from 'typeorm'
 import { logger } from './utils/logger'
@@ -17,6 +17,12 @@ async function main() {
     await createConnection(dbConnection)
     logger.info('Initializing mail...'.yellow)
     await initMail()
+
+    await sendMail({
+        to: '173david173@gmail.com',
+        subject: 'Test mail',
+        text: 'Hello world',
+    })
 
     const app = new App([new IndexRoute(), new RequestQueueRoute(), new ProxyRoute(), new Sms019Route()])
     app.listen()
