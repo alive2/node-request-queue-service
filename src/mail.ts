@@ -43,6 +43,7 @@ export async function initMail(): Promise<boolean> {
                 pass,
             },
             logger: Env.isDevelopment,
+            secure: true,
             requireTLS: false,
         })
         // verify connection configuration and throw an error if it fails
