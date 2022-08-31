@@ -43,10 +43,7 @@ export async function initMail(): Promise<boolean> {
                 pass,
             },
             logger: Env.isDevelopment,
-            secure: false,
-            tls: {
-                rejectUnauthorized: false,
-            },
+            requireTLS: false,
         })
         // verify connection configuration and throw an error if it fails
         await transporter.verify()
