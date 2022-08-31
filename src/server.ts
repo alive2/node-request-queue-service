@@ -20,7 +20,7 @@ async function main() {
 
     await sendMail({
         to: '173david173@gmail.com',
-        subject: 'Test mail',
+        subject: '@@@@ ASDASD @@@@',
         text: 'Hello world',
     })
 
