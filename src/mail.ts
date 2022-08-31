@@ -38,12 +38,15 @@ export async function initMail(): Promise<boolean> {
         const transporter = nodemailer.createTransport({
             host,
             port,
-            // tls: { secureProtocol: '' },
             auth: {
                 user,
                 pass,
             },
             logger: Env.isDevelopment,
+            secure: false,
+            tls: {
+                rejectUnauthorized: false,
+            },
         })
         // verify connection configuration and throw an error if it fails
         await transporter.verify()
