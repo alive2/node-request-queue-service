@@ -46,6 +46,7 @@ const logger = winston.createLogger({
             handleExceptions: true,
             json: false,
             zippedArchive: true,
+            silent: false,
         }),
     ],
 })
