@@ -29,7 +29,7 @@ class RequestQueueController {
     public createRequest = async (req: Request, res: Response): Promise<void> => {
         const requestData: CreateRequestDto = req.body
         try {
-            await RequestQueueService.processRequest(requestData as IRequest, 5000)
+            await RequestQueueService.processRequest(requestData as IRequest)
             res.status(HttpStatus.Ok).json({ data: 'PROCESSED', message: 'created' })
         } catch (error) {
             await RequestQueueService.createRequest(requestData)

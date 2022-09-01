@@ -15,7 +15,7 @@ class _RequestQueueService extends Repository<RequestEntity> {
         const controller = new AbortController()
         const signal = controller.signal as any
         setTimeout(() => controller.abort(), timeout)
-        return await fetch(requestQueue.url, { ...requestQueue.data, signal })
+        fetch(requestQueue.url, { ...requestQueue.data, signal }) // Note: fetch isn't awaited intentionally
     }
 
     public async findAllRequests(): Promise<IRequest[]> {
