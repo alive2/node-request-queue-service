@@ -3,6 +3,7 @@ import { CreateRequestDto } from '@/dtos/request-queue.dto'
 import { IRequest } from '@/interfaces/request-queue.interface'
 import { RequestQueueService } from '@/services/request-queue.service'
 import { HttpStatus } from '@/constants/http-status'
+import { logger } from '@/utils/logger'
 
 class RequestQueueController {
     public getRequest = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -30,12 +31,13 @@ class RequestQueueController {
         const requestData: CreateRequestDto = req.body
         RequestQueueService.processRequest(requestData as IRequest)
             .then(() => {
-                res.status(HttpStatus.Ok).json({ data: 'PROCESSED', message: 'created' })
+                logger.info('Request processed successfully')
             })
-            .catch(async () => {
-                await RequestQueueService.createRequest(requestData)
-                res.status(HttpStatus.Ok).json({ data: 'QUEUED', message: 'created' })
+            .catch(() => {
+                logger.info('Request failed to process and is added to the queue')
+                RequestQueueService.createRequest(requestData)
             })
+        res.status(HttpStatus.Ok).json({ data: null, message: 'created' })
     }
 
     public updateRequest = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
