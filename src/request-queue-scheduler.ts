@@ -33,8 +33,8 @@ export class RequestQueueScheduler {
                 await RequestQueueService.deleteRequest(request.id)
             } catch (err) {
                 console.log(`Failed to process request ${request.id}`, JSON.stringify(err, null, 4).red)
-                if (typeof err === 'object' && err.type === 'aborted') {
-                    console.error(`Request ${request.id} timed out after ${Env.REQUEST_TIMEOUT} milliseconds`)
+                if ((typeof err === 'object' && err.type === 'aborted') || (err as any).code === 'ECONNREFUSED') {
+                    console.error(`Request ${request.id} timed out`)
                     request.attempts++
                     await RequestQueueService.updateRequest(request.id, request)
                     if (request.attempts >= Env.REQUEST_MAX_ATTEMPTS_ON_TIMEOUT) {

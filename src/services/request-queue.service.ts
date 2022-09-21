@@ -5,17 +5,17 @@ import { HttpException } from '@/exceptions/http-exception'
 import { IRequest } from '@/interfaces/request-queue.interface'
 import { isEmpty } from '@/utils/util'
 import { HttpStatus } from '@/constants/http-status'
-import fetch from 'node-fetch'
+import fetch, { Request } from 'node-fetch'
 import { AbortController } from 'node-abort-controller'
 import { Env } from '@/env'
 
 @EntityRepository()
 class _RequestQueueService extends Repository<RequestEntity> {
-    public async processRequest(requestQueue: IRequest, timeout = Env.REQUEST_TIMEOUT) {
+    public async processRequest(requestQueue: { url: string; data?: Request }, timeout = Env.REQUEST_TIMEOUT) {
         const controller = new AbortController()
         const signal = controller.signal as any
         setTimeout(() => controller.abort(), timeout)
-        await fetch(requestQueue.url, { ...requestQueue.data, signal })
+        return await fetch(requestQueue.url, { ...requestQueue.data, signal })
     }
 
     public async findAllRequests(): Promise<IRequest[]> {
