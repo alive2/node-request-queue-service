@@ -2,10 +2,10 @@ import { RequestHandler } from 'express'
 import type { Proxy2Dto } from '@/dtos/proxy2.dto'
 import { RequestQueueService } from '@/services/request-queue.service'
 import { logger } from '@/utils/logger'
-import { Env } from '@/env'
 
 class Proxy2Controller {
     public fetchProxy: RequestHandler<{}, {}, Proxy2Dto> = async (req, res, next) => {
+        console.log('fetchProxy', req.body)
         try {
             const response = await RequestQueueService.processRequest({
                 url: req.body.url,
