@@ -15,7 +15,9 @@
     "service:uninstall": "cross-env NODE_ENV=production node dist/service-uninstall.js",
     "service:start": "service requestqueue start",
     "service:stop": "service requestqueue stop",
-    "service:status": "service requestqueue status"
+    "service:status": "service requestqueue status",
+    "service:enable": "service requestqueue enable",
+    "service:disable": "service requestqueue disable"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",
