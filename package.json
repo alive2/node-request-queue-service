@@ -16,8 +16,8 @@
     "service:start": "service requestqueue start",
     "service:stop": "service requestqueue stop",
     "service:status": "service requestqueue status",
-    "service:enable": "service requestqueue enable",
-    "service:disable": "service requestqueue disable"
+    "service:enable": "systemctl enable requestqueue",
+    "service:disable": "systemctl disable requestqueue"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",
